@@ -418,6 +418,10 @@ TINY_DS_UPSAMPLE_HEAD_STAGES = [
     [("ir_k3", 64, 2, 1, e4), ("ir_k3", 64, 1, 2, e4), ("ir_k3", 64, -2, 1, e4), ("ir_k3", 40, -2, 1, e3)],  # noqa
 ]
 
+FPN_UPSAMPLE_HEAD_STAGES = [
+    [("ir_k3", 96, 1, 1, e6), ("ir_k3", 160, 1, 3, e6), ("ir_k3", 80, -2, 1, e3)],
+]
+
 MODEL_ARCH_BUILTIN = {
     "default": {
         "trunk": DEFAULT_STAGES[0:4],
@@ -504,6 +508,14 @@ MODEL_ARCH_BUILTIN = {
         "rpn": [[_repeat_last(FBNetV3_B_light_no_se[3])]],
         "bbox": SMALL_BOX_HEAD_STAGES,
         "mask": SMALL_DS_UPSAMPLE_HEAD_STAGES,
+        "kpts": LARGE_UPSAMPLE_HEAD_D21_STAGES,
+        "basic_args": _BASIC_ARGS,
+    },
+    "FBNetV3_G_fpn": {
+        "trunk": FBNetV3_G[0:5],  # FPN uses all 5 stages
+        "rpn": [[_repeat_last(FBNetV3_G[3], n=1)]],
+        "bbox": [FBNetV3_G[4]],
+        "mask": FPN_UPSAMPLE_HEAD_STAGES,
         "kpts": LARGE_UPSAMPLE_HEAD_D21_STAGES,
         "basic_args": _BASIC_ARGS,
     },

@@ -32,66 +32,50 @@ requirements = [
     'opencv-python',
 ]
 
+def d2go_gather_files(dst_module, file_path, extension="*") -> List[str]:
+    """
+    Return a list of files to include in d2go submodule. Copy over the corresponding files.
+    """
+    # Use absolute paths while symlinking.
+    source_configs_dir = path.join(path.dirname(path.realpath(__file__)), file_path)
+    destination = path.join(
+        path.dirname(path.realpath(__file__)), "d2go", dst_module
+    )
+    # Symlink the config directory inside package to have a cleaner pip install.
+
+    # Remove stale symlink/directory from a previous build.
+    if path.exists(source_configs_dir):
+        if path.islink(destination):
+            os.unlink(destination)
+        elif path.isdir(destination):
+            shutil.rmtree(destination)
+
+    if not path.exists(destination):
+        try:
+            os.symlink(source_configs_dir, destination)
+        except OSError:
+            # Fall back to copying if symlink fails: ex. on Windows.
+            shutil.copytree(source_configs_dir, destination)
+
+    config_paths = glob.glob(os.path.join(file_path + extension), recursive=True)
+    return config_paths
 
 def get_model_zoo_configs() -> List[str]:
     """
     Return a list of configs to include in package for model zoo. Copy over these configs inside
     d2go/model_zoo.
     """
-
-    # Use absolute paths while symlinking.
-    source_configs_dir = path.join(path.dirname(path.realpath(__file__)), "configs")
-    destination = path.join(
-        path.dirname(path.realpath(__file__)), "d2go", "model_zoo", "configs"
-    )
-    # Symlink the config directory inside package to have a cleaner pip install.
-
-    # Remove stale symlink/directory from a previous build.
-    if path.exists(source_configs_dir):
-        if path.islink(destination):
-            os.unlink(destination)
-        elif path.isdir(destination):
-            shutil.rmtree(destination)
-
-    if not path.exists(destination):
-        try:
-            os.symlink(source_configs_dir, destination)
-        except OSError:
-            # Fall back to copying if symlink fails: ex. on Windows.
-            shutil.copytree(source_configs_dir, destination)
-
-    config_paths = glob.glob("configs/**/*.yaml", recursive=True)
-    return config_paths
+    return d2go_gather_files(os.path.join("model_zoo", "configs"), "configs", "**/*.yaml")
 
 def get_test_helper() -> List[str]:
     """
     Return a list of helper file to include in package for tests. Copy over these file inside
     d2go/tests.
     """
+    return d2go_gather_files("tests", "tests", "**/*.py")
 
     # Use absolute paths while symlinking.
     source_configs_dir = path.join(path.dirname(path.realpath(__file__)), "tests")
-    destination = path.join(
-        path.dirname(path.realpath(__file__)), "d2go", "tests"
-    )
-    # Symlink the config directory inside package to have a cleaner pip install.
-
-    # Remove stale symlink/directory from a previous build.
-    if path.exists(source_configs_dir):
-        if path.islink(destination):
-            os.unlink(destination)
-        elif path.isdir(destination):
-            shutil.rmtree(destination)
-
-    if not path.exists(destination):
-        try:
-            os.symlink(source_configs_dir, destination)
-        except OSError:
-            # Fall back to copying if symlink fails: ex. on Windows.
-            shutil.copytree(source_configs_dir, destination)
-
-    config_paths = glob.glob("tests/**/*helper.py", recursive=True)
-    return config_paths
 
 if __name__ == '__main__':
     setup(

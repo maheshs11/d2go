@@ -44,5 +44,5 @@ FBNet series are efficient mobile backbones discovered via neural architecture s
 
 | name                                                         | box AP | kp. AP | model id  | download                                                     |
 | ------------------------------------------------------------ | ------ | ------ | --------- | ------------------------------------------------------------ |
-| [Keypoint-RCNN-FBNetV3A-dsmask](./configs/keypoint_rcnn_fbnetv2_C4_1x.yaml) | 31.24  | 35.56  | 250430934 | [model](https://mobile-cv.s3-us-west-2.amazonaws.com/d2go/models/250430934/model_0389999.pth) \|[metrics](https://mobile-cv.s3-us-west-2.amazonaws.com/d2go/models/250430934/metrics.json) |
+| [Keypoint-RCNN-FBNetV3A-dsmask](./configs/keypoint_rcnn_fbnetv3a_dsmask_C4.yaml) | 31.24  | 35.56  | 250430934 | [model](https://mobile-cv.s3-us-west-2.amazonaws.com/d2go/models/250430934/model_0389999.pth) \|[metrics](https://mobile-cv.s3-us-west-2.amazonaws.com/d2go/models/250430934/metrics.json) |
 

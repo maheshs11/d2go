@@ -2,7 +2,7 @@ MODEL:
   META_ARCHITECTURE: "GeneralizedRCNN"
   MASK_ON: True
   FBNET_V2:
-    ARCH: "FBNetV3_A_fpn"
+    ARCH: "FBNetV3_G_fpn"
     NORM: "naiveSyncBN"
     WIDTH_DIVISOR: 8
   BACKBONE:

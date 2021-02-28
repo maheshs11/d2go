@@ -19,7 +19,7 @@ class _ModelZooUrls(object):
         "mask_rcnn_fbnetv3a_C4.yaml": "250355374/model_0479999.pth",
         "mask_rcnn_fbnetv3a_dsmask_C4.yaml": "250414867/model_0399999.pth",
         "mask_rcnn_fbnetv3g_fpn.yaml": "250376154/model_0404999.pth",
-        "keypoint_rcnn_fbnetv2_C4_1x.yaml": "250430934/model_0389999.pth",
+        "keypoint_rcnn_fbnetv3a_dsmask_C4.yaml": "250430934/model_0389999.pth",
     }
 
 
