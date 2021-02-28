@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+
 
 import detectron2.data.transforms.augmentation as aug
 from detectron2.data.transforms import NoOpTransform, Transform

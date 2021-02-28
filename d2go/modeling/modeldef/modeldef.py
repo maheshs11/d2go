@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+
 
 import copy
 from mobile_cv.arch.fbnet_v2.modeldef_utils import _ex, e1, e2, e1p, e3, e4, e6
@@ -161,6 +163,143 @@ FBNetV3_B = [
     ],
 ]
 
+FBNetV3_C = [
+    [("conv_k3", 16, 2, 1), ("ir_k3", 16, 1, 2, {"expansion": 1}, IRF_CFG)],
+    [
+        ("ir_k5", 24, 2, 1, {"expansion": 5}, IRF_CFG),
+        ("ir_k3", 24, 1, 4, {"expansion": 3}, IRF_CFG),
+    ],
+    [
+        ("ir_k5_se", 48, 2, 1, {"expansion": 5}, IRF_CFG),
+        ("ir_k5_se", 48, 1, 4, {"expansion": 2}, IRF_CFG),
+    ],
+    [
+        ("ir_k5", 88, 2, 1, {"expansion": 4}, IRF_CFG),
+        ("ir_k3", 88, 1, 4, {"expansion": 3}, IRF_CFG),
+        ("ir_k3_se", 120, 1, 1, {"expansion": 4}, IRF_CFG),
+        ("ir_k5_se", 120, 1, 5, {"expansion": 3}, IRF_CFG),
+    ],
+    [
+        ("ir_k5_se", 216, 2, 1, {"expansion": 5}, IRF_CFG),
+        ("ir_k5_se", 216, 1, 5, {"expansion": 5}, IRF_CFG),
+        ("ir_k5_se", 216, 1, 1, {"expansion": 6}, IRF_CFG),
+    ],
+]
+
+FBNetV3_D = [
+    [("conv_k3", 24, 2, 1), ("ir_k3", 16, 1, 2, {"expansion": 1}, IRF_CFG)],
+    [
+        ("ir_k3", 24, 2, 1, {"expansion": 5}, IRF_CFG),
+        ("ir_k3", 24, 1, 5, {"expansion": 2}, IRF_CFG),
+    ],
+    [
+        ("ir_k5_se", 40, 2, 1, {"expansion": 4}, IRF_CFG),
+        ("ir_k3_se", 40, 1, 4, {"expansion": 3}, IRF_CFG),
+    ],
+    [
+        ("ir_k3", 72, 2, 1, {"expansion": 5}, IRF_CFG),
+        ("ir_k3", 72, 1, 4, {"expansion": 3}, IRF_CFG),
+        ("ir_k3_se", 128, 1, 1, {"expansion": 5}, IRF_CFG),
+        ("ir_k5_se", 128, 1, 6, {"expansion": 3}, IRF_CFG),
+    ],
+    [
+        ("ir_k3_se", 208, 2, 1, {"expansion": 6}, IRF_CFG),
+        ("ir_k5_se", 208, 1, 5, {"expansion": 5}, IRF_CFG),
+        ("ir_k5_se", 240, 1, 1, {"expansion": 6}, IRF_CFG),
+    ],
+]
+
+FBNetV3_E = [
+    [("conv_k3", 24, 2, 1), ("ir_k3", 16, 1, 3, {"expansion": 1}, IRF_CFG)],
+    [
+        ("ir_k5", 24, 2, 1, {"expansion": 4}, IRF_CFG),
+        ("ir_k5", 24, 1, 4, {"expansion": 2}, IRF_CFG),
+    ],
+    [
+        ("ir_k5_se", 48, 2, 1, {"expansion": 4}, IRF_CFG),
+        ("ir_k5_se", 48, 1, 4, {"expansion": 3}, IRF_CFG),
+    ],
+    [
+        ("ir_k5", 80, 2, 1, {"expansion": 5}, IRF_CFG),
+        ("ir_k3", 80, 1, 4, {"expansion": 3}, IRF_CFG),
+        ("ir_k3_se", 128, 1, 1, {"expansion": 5}, IRF_CFG),
+        ("ir_k5_se", 128, 1, 7, {"expansion": 3}, IRF_CFG),
+    ],
+    [
+        ("ir_k3_se", 216, 2, 1, {"expansion": 6}, IRF_CFG),
+        ("ir_k5_se", 216, 1, 5, {"expansion": 5}, IRF_CFG),
+        ("ir_k5_se", 240, 1, 1, {"expansion": 6}, IRF_CFG),
+    ],
+]
+
+FBNetV3_F = [
+    [("conv_k3", 24, 2, 1), ("ir_k3", 24, 1, 3, {"expansion": 1}, IRF_CFG)],
+    [
+        ("ir_k5", 32, 2, 1, {"expansion": 4}, IRF_CFG),
+        ("ir_k5", 32, 1, 4, {"expansion": 2}, IRF_CFG),
+    ],
+    [
+        ("ir_k5_se", 56, 2, 1, {"expansion": 4}, IRF_CFG),
+        ("ir_k5_se", 56, 1, 4, {"expansion": 3}, IRF_CFG),
+    ],
+    [
+        ("ir_k5", 88, 2, 1, {"expansion": 5}, IRF_CFG),
+        ("ir_k3", 88, 1, 4, {"expansion": 3}, IRF_CFG),
+        ("ir_k3_se", 144, 1, 1, {"expansion": 5}, IRF_CFG),
+        ("ir_k5_se", 144, 1, 8, {"expansion": 3}, IRF_CFG),
+    ],
+    [
+        ("ir_k3_se", 248, 2, 1, {"expansion": 6}, IRF_CFG),
+        ("ir_k5_se", 248, 1, 6, {"expansion": 5}, IRF_CFG),
+        ("ir_k5_se", 272, 1, 1, {"expansion": 6}, IRF_CFG),
+    ],
+]
+
+FBNetV3_G = [
+    [("conv_k3", 32, 2, 1), ("ir_k3", 24, 1, 3, {"expansion": 1}, IRF_CFG)],
+    [
+        ("ir_k5", 40, 2, 1, {"expansion": 4}, IRF_CFG),
+        ("ir_k5", 40, 1, 4, {"expansion": 2}, IRF_CFG),
+    ],
+    [
+        ("ir_k5_se", 56, 2, 1, {"expansion": 4}, IRF_CFG),
+        ("ir_k5_se", 56, 1, 4, {"expansion": 3}, IRF_CFG),
+    ],
+    [
+        ("ir_k5", 104, 2, 1, {"expansion": 5}, IRF_CFG),
+        ("ir_k3", 104, 1, 4, {"expansion": 3}, IRF_CFG),
+        ("ir_k3_se", 160, 1, 1, {"expansion": 5}, IRF_CFG),
+        ("ir_k5_se", 160, 1, 8, {"expansion": 3}, IRF_CFG),
+    ],
+    [
+        ("ir_k3_se", 264, 2, 1, {"expansion": 6}, IRF_CFG),
+        ("ir_k5_se", 264, 1, 6, {"expansion": 5}, IRF_CFG),
+        ("ir_k5_se", 288, 1, 2, {"expansion": 6}, IRF_CFG),
+    ],
+]
+
+FBNetV3_H = [
+    [("conv_k3", 48, 2, 1), ("ir_k3", 32, 1, 4, {"expansion": 1}, IRF_CFG)],
+    [
+        ("ir_k5", 64, 2, 1, {"expansion": 4}, IRF_CFG),
+        ("ir_k5", 64, 1, 6, {"expansion": 2}, IRF_CFG),
+    ],
+    [
+        ("ir_k5_se", 80, 2, 1, {"expansion": 4}, IRF_CFG),
+        ("ir_k5_se", 80, 1, 6, {"expansion": 3}, IRF_CFG),
+    ],
+    [
+        ("ir_k5", 160, 2, 1, {"expansion": 5}, IRF_CFG),
+        ("ir_k3", 160, 1, 6, {"expansion": 3}, IRF_CFG),
+        ("ir_k3_se", 240, 1, 1, {"expansion": 5}, IRF_CFG),
+        ("ir_k5_se", 240, 1, 12, {"expansion": 3}, IRF_CFG),
+    ],
+    [
+        ("ir_k3_se", 400, 2, 1, {"expansion": 6}, IRF_CFG),
+        ("ir_k5_se", 400, 1, 8, {"expansion": 5}, IRF_CFG),
+        ("ir_k5_se", 480, 1, 3, {"expansion": 6}, IRF_CFG),
+    ],
+]
 
 FBNetV3_A_no_se = [
     # FBNetV3 without hs and SE (SE is not quantization friendly)
@@ -294,6 +433,54 @@ MODEL_ARCH_BUILTIN = {
         "bbox": SMALL_BOX_HEAD_STAGES,
         "mask": SMALL_DS_UPSAMPLE_HEAD_STAGES,
         "kpts": SMALL_DS_UPSAMPLE_HEAD_STAGES,
+        "basic_args": _BASIC_ARGS,
+    },
+    "FBNetV3_A": {
+        "trunk": FBNetV3_A[0:4],
+        "rpn": [[_repeat_last(FBNetV3_A[3])]],
+        "bbox": [FBNetV3_A[4]],
+        "basic_args": _BASIC_ARGS,
+    },
+    "FBNetV3_B": {
+        "trunk": FBNetV3_B[0:4],
+        "rpn": [[_repeat_last(FBNetV3_B[3])]],
+        "bbox": [FBNetV3_B[4]],
+        "basic_args": _BASIC_ARGS,
+    },
+    "FBNetV3_C": {
+        "trunk": FBNetV3_C[0:4],
+        "rpn": [[_repeat_last(FBNetV3_C[3])]],
+        "bbox": [FBNetV3_C[4]],
+        "basic_args": _BASIC_ARGS,
+    },
+    "FBNetV3_D": {
+        "trunk": FBNetV3_D[0:4],
+        "rpn": [[_repeat_last(FBNetV3_D[3])]],
+        "bbox": [FBNetV3_D[4]],
+        "basic_args": _BASIC_ARGS,
+    },
+    "FBNetV3_E": {
+        "trunk": FBNetV3_E[0:4],
+        "rpn": [[_repeat_last(FBNetV3_E[3])]],
+        "bbox": [FBNetV3_E[4]],
+        "basic_args": _BASIC_ARGS,
+    },
+    "FBNetV3_F": {
+        "trunk": FBNetV3_F[0:4],
+        "rpn": [[_repeat_last(FBNetV3_F[3])]],
+        "bbox": [FBNetV3_F[4]],
+        "basic_args": _BASIC_ARGS,
+    },
+    "FBNetV3_G": {
+        "trunk": FBNetV3_G[0:4],
+        "rpn": [[_repeat_last(FBNetV3_G[3])]],
+        "bbox": [FBNetV3_G[4]],
+        "basic_args": _BASIC_ARGS,
+    },
+    "FBNetV3_H": {
+        "trunk": FBNetV3_H[0:4],
+        "rpn": [[_repeat_last(FBNetV3_H[3])]],
+        "bbox": [FBNetV3_H[4]],
         "basic_args": _BASIC_ARGS,
     },
     "FBNetV3_A_dsmask": {

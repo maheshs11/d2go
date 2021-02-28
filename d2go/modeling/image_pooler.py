@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+
 
 import d2go.data.transforms.crop as tfm_crop
 import d2go.data.transforms.tensor as tfm_tensor

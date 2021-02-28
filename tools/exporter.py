@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+
 """
 Binary to convert pytorch detectron2go model to a predictor, which contains model(s) in
 deployable format (such as torchscript, caffe2, ...)

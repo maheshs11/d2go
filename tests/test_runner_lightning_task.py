@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+
 
 import os
 import tempfile
@@ -12,11 +14,11 @@ import torch
 from d2go.config import CfgNode
 from d2go.runner.lightning_task import GeneralizedRCNNTask
 from detectron2.utils.events import EventStorage
-from stl.lightning.callbacks.model_checkpoint import ModelCheckpoint
 from torch import Tensor
 
 from d2go.tests import meta_arch_helper as mah
 
+OSSRUN = os.getenv('OSSRUN') == '1'
 
 class TestLightningTask(unittest.TestCase):
     def _get_cfg(self, tmp_dir: str) -> CfgNode:
@@ -36,9 +38,11 @@ class TestLightningTask(unittest.TestCase):
                 return False
         return True
 
+    @unittest.skipIf(OSSRUN, "not supported yet")
     def test_load_from_checkpoint(self) -> None:
         with tempfile.TemporaryDirectory() as tmp_dir:
             task = GeneralizedRCNNTask(self._get_cfg(tmp_dir))
+            from stl.lightning.callbacks.model_checkpoint import ModelCheckpoint
             checkpoint_callback = ModelCheckpoint(
                 directory=task.cfg.OUTPUT_DIR, has_user_data=False
             )
@@ -88,11 +92,13 @@ class TestLightningTask(unittest.TestCase):
                 self._compare_state_dict(init_state, task.ema_state.state_dict())
             )
 
+    @unittest.skipIf(OSSRUN, "not supported yet")
     def test_load_ema_weights(self):
         with tempfile.TemporaryDirectory() as tmp_dir:
             cfg = self._get_cfg(tmp_dir)
             cfg.MODEL_EMA.ENABLED = True
             task = GeneralizedRCNNTask(cfg)
+            from stl.lightning.callbacks.model_checkpoint import ModelCheckpoint
             checkpoint_callback = ModelCheckpoint(
                 directory=task.cfg.OUTPUT_DIR, save_last=True
             )

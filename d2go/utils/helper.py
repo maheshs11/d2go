@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
 #!/usr/bin/python
 import errno
 import importlib

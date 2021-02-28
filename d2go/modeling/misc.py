@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+
 
 # misc.py
 # modules that are used in different places but are not a specific type (e.g., backbone)

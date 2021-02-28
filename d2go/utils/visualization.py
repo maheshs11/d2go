@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+
 
 from detectron2.data import DatasetCatalog, MetadataCatalog, detection_utils as utils
 from detectron2.evaluation import DatasetEvaluator

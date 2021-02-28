@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+
 import os
 from copy import deepcopy
 from enum import Enum
@@ -12,13 +14,13 @@ from d2go.runner.default_runner import (
     GeneralizedRCNNRunner,
 )
 from d2go.setup import setup_after_launch
+from d2go.utils.ema_state import EMAState
 from detectron2.modeling import build_model
 from detectron2.solver import (
     build_lr_scheduler as d2_build_lr_scheduler,
     build_optimizer as d2_build_optimizer,
 )
 from pytorch_lightning.utilities import rank_zero_info
-from stl.lightning.utilities.ema_state import EMAState
 
 _STATE_DICT_KEY = "state_dict"
 _OLD_STATE_DICT_KEY = "model"

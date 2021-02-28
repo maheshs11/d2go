@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+
 """
 Binary to evaluate predictor-based model (consist of models in deployable format such
 torchscript, caffe2, etc.) using Detectron2Go system (dataloading, evaluation, etc).

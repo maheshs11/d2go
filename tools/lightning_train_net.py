@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved
+
 
 import logging
 import os
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Type
-from uuid import uuid4
 
 import pytorch_lightning as pl  # type: ignore
-import torchelastic.distributed.fb.local_launch as pet
 from d2go.config import CfgNode, temp_defrost
 from d2go.runner import get_class
 from d2go.runner.lightning_task import GeneralizedRCNNTask
@@ -23,6 +23,7 @@ from stl.lightning.callbacks.quantization import QuantizationAwareTraining
 from stl.lightning.io.filesystem import get_filesystem
 from stl.lightning.loggers import ManifoldTensorBoardLogger
 from stl.lightning.utilities.manifold import manifold_uri_to_bucket_and_path
+from torch.distributed import get_rank
 
 
 logging.basicConfig(level=logging.INFO)
@@ -209,45 +210,26 @@ def build_config(
 
 
 def argument_parser():
-    parser = basic_argument_parser(distributed=False, requires_output_dir=False)
+    parser = basic_argument_parser(distributed=True, requires_output_dir=False)
     parser.add_argument(
         "--num-gpus", type=int, default=0, help="number of GPUs per machine"
-    )
-    parser.add_argument(
-        "--num-processes",
-        type=int,
-        default=1,
-        help="number of processes per machine, only used for training on CPU",
     )
     return parser
 
 
 if __name__ == "__main__":
     args = argument_parser().parse_args()
-
-    lc = pet.LocalLaunchConfig(
-        # Assuming devgpu testing, min = max nodes = 1
-        min_nodes=1,
-        max_nodes=1,
-        nproc_per_node=max(args.num_gpus, args.num_processes, 1),
-        # run_id just has to be globally unique
-        run_id=f"detectron2go_{uuid4()}",
-        # for fault tolerance; for testing set it to 0 (no fault tolerance)
-        max_restarts=0,
-        function_start_method="spawn",
-    )
-
     task_cls = get_class(args.runner) if args.runner else GeneralizedRCNNTask
-
     cfg = build_config(args.config_file, task_cls, args.opts)
-    ret = pet.elastic_launch(lc, fn=main)(
+    ret = main(
         cfg,
         args.output_dir,
         task_cls,
-        False,  # eval_only
-        1,  # num_machines
-        args.num_gpus,
-        args.num_processes,
-        "ddp" if args.num_gpus > 0 else "ddp_cpu",
+        eval_only=False,  # eval_only
+        num_machines=args.num_machines,
+        num_gpus=args.num_gpus,
+        num_processes=args.num_processes,
+        accelerator="ddp" if args.num_gpus > 0 else "ddp_cpu",
     )
-    print(f"Rank 0 results = {ret[0]}")
+    if get_rank() == 0:
+        print(ret)
