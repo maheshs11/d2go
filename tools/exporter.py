@@ -6,6 +6,7 @@ Binary to convert pytorch detectron2go model to a predictor, which contains mode
 deployable format (such as torchscript, caffe2, ...)
 """
 
+import click
 import copy
 import logging
 import typing
@@ -112,6 +113,44 @@ def get_parser():
     )
     return parser
 
+@click.command(
+    help="""
+    d2go model export API, example:
+    d2go.exporter --config-file configs/faster_rcnn_fbnetv3a_C4.yaml \
+        --output-dir ./ --predictor-types torchscript \
+        MODEL.WEIGHTS https://mobile-cv.s3-us-west-2.amazonaws.com/d2go/models/246823121/model_0479999.pth
+    """
+)
+@click.option(
+    "--config-file",
+    default=None,
+    type=str,
+    help="path to config file",
+)
+@click.option(
+    "--output-dir",
+    default=None,
+    type=str,
+    help="output directory",
+)
+@click.option(
+    "--predictor-type",
+    default="torchscript",
+    type=str,
+    help="output predictor types (torchscript, torchscript_int8)",
+)
+@click.argument(
+    "opts",
+    default=None,
+    nargs=-1,
+)
+def cli(config_file, output_dir, predictor_type, opts):
+    args = get_parser().parse_args()
+    args.config_file = config_file
+    args.output_dir = output_dir
+    args.predictor_types = [predictor_type]
+    args.opts = opts
+    run_with_cmdline_args(args)
 
 if __name__ == "__main__":
     run_with_cmdline_args(get_parser().parse_args())

@@ -5,6 +5,7 @@
 Detection Training Script.
 """
 
+import click
 import logging
 
 import detectron2.utils.comm as comm
@@ -88,6 +89,58 @@ def run_with_cmdline_args(args):
         args=(cfg, output_dir, runner, args.eval_only, args.resume),
     )
 
+@click.command(
+    help="""
+    d2go model export API, example:
+    d2go.train_net --config-file configs/faster_rcnn_fbnetv3a_C4.yaml \
+        --output-dir ./ --eval-only \
+        MODEL.WEIGHTS https://mobile-cv.s3-us-west-2.amazonaws.com/d2go/models/246823121/model_0479999.pth
+    """
+)
+@click.option(
+    "--config-file",
+    default=None,
+    type=str,
+    help="path to config file",
+)
+@click.option(
+    "--output-dir",
+    default=None,
+    type=str,
+    help="output directory",
+)
+@click.option(
+    "--resume",
+    is_flag=True,
+    help="whether to attempt to resume from the checkpoint directory",
+)
+@click.option(
+    "--eval-only",
+    is_flag=True,
+    help="perform evaluation only",
+)
+@click.argument(
+    "opts",
+    default=None,
+    nargs=-1,
+)
+def cli(config_file, output_dir, resume, eval_only, opts):
+    parser = basic_argument_parser(requires_output_dir=False)
+    parser.add_argument(
+        "--eval-only", action="store_true", help="perform evaluation only"
+    )
+    parser.add_argument(
+        "--resume",
+        action="store_true",
+        help="whether to attempt to resume from the checkpoint directory",
+    )
+    args = parser.parse_args()
+    args.config_file = config_file
+    args.output_dir = output_dir
+    args.resume = resume
+    args.eval_only = eval_only
+    args.opts = opts
+    run_with_cmdline_args(args)
 
 if __name__ == "__main__":
     parser = basic_argument_parser(requires_output_dir=False)

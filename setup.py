@@ -67,16 +67,6 @@ def get_model_zoo_configs() -> List[str]:
     """
     return d2go_gather_files(os.path.join("model_zoo", "configs"), "configs", "**/*.yaml")
 
-def get_test_helper() -> List[str]:
-    """
-    Return a list of helper file to include in package for tests. Copy over these file inside
-    d2go/tests.
-    """
-    return d2go_gather_files("tests", "tests", "**/*.py")
-
-    # Use absolute paths while symlinking.
-    source_configs_dir = path.join(path.dirname(path.realpath(__file__)), "tests")
-
 if __name__ == '__main__':
     setup(
         name="d2go",
@@ -93,7 +83,14 @@ if __name__ == '__main__':
                 'LICENSE',
             ],
             "d2go.model_zoo": get_model_zoo_configs(),
-            "d2go.tests": get_test_helper(),
+            "d2go.tests": d2go_gather_files("tests", "tests", "**/*helper.py"),
+            "d2go.tools": d2go_gather_files("tools", "tools", "**/*.py"),
+        },
+        entry_points={
+            'console_scripts': [
+                'd2go.exporter = d2go.tools.exporter:cli',
+                'd2go.train_net = d2go.tools.train_net:cli',
+            ]
         },
     )
 
