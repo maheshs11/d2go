@@ -1,0 +1,36 @@
+pytorch 1.8
+
+sudo apt-get update
+sudo apt-get upgrade
+
+sudo apt-get install python3-pip libopenblas-dev libopenmpi-dev libomp-dev
+
+sudo -H pip3 install --upgrade setuptools
+sudo -H pip3 install Cython
+
+sudo -H pip3 install gdown
+
+sudo cp ~/.local/bin/gdown /usr/local/bin/gdown
+
+gdown https://drive.google.com/uc?id=1oJITMYYGrlJ66Jw62-PHQLSZO7PT7Wg8
+
+sudo -H pip3 install torch-1.8.0a0+37c1f4a-cp37-cp37m-linux_aarch64.whl
+
+rm torch-1.8.0a0+37c1f4a-cp37-cp37m-linux_aarch64.whl
+
+
+Used with PyTorch 1.8.0
+torchvision 0.9
+
+sudo apt-get install libjpeg-dev zlib1g-dev libpython3-dev
+sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev
+
+sudo -H pip3 install gdown
+
+sudo cp ~/.local/bin/gdown /usr/local/bin/gdown
+
+gdown https://drive.google.com/uc?id=1OSMSaokFF-NoGSCi2NsybVX7o_QBLw-q
+
+sudo -H pip3 install torchvision-0.9.0a0+01dfa8e-cp37-cp37m-linux_aarch64.whl
+
+rm torchvision-0.9.0a0+01dfa8e-cp37-cp37m-linux_aarch64.whl
