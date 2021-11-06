@@ -162,7 +162,7 @@ def _cast_detection_model(model, device):
 
 def add_d2_quant_mapping(mappings):
     """HACK: Add d2 specific module mapping for eager model quantization"""
-    import torch.ao.quantization.quantization_mappings as qm
+    import torch.quantization.quantization_mappings as qm
 
     for k, v in mappings.items():
         if k not in qm.get_default_static_quant_module_mappings():
