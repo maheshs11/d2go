@@ -25,7 +25,7 @@ from mobile_cv.arch.utils.quantize_utils import (
     QuantWrapper,
 )
 from mobile_cv.predictor.api import FuncInfo
-from torch.ao.quantization.quantize_fx import prepare_fx, prepare_qat_fx, convert_fx
+from torch.quantization.quantize_fx import prepare_fx, prepare_qat_fx, convert_fx
 
 logger = logging.getLogger(__name__)
 
